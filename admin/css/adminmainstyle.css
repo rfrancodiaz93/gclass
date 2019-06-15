@@ -1,0 +1,4 @@
+/*This is file serves to link all the other css files*/
+ @import url(./adminstyle.css);
+ @import url(./adminportalstyle.css);
+ @import url(./lsnmanagerstyle.css);
