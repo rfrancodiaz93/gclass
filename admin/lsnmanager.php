@@ -127,6 +127,26 @@
 			$lsnCount= count($group_id);
 			for ($i=0; $i < $lsnCount ; $i++) { 
 				if($index == $i){
+
+					//call a query to get the vids url
+					$queryVidUrl = mysqli_query($con,"SELECT videoname, videourl FROM lsnvideos");
+					// store them in an array
+					$vidurlArray = array();
+					while ($data = mysqli_fetch_assoc($queryVidUrl)) {
+						$vidurlArray[] = $data;
+					}
+					// delete file from folder 
+					$vidPath = "../gclass/videos/".$vidurlArray[$i]['videoname'];
+					if(unlink($vidPath)){
+						//echo "Lesson: \"".$delGroup."\" was deleted";
+						echo "video file deleted <br>";
+					}
+					else{
+						 die("Couldn't delete file");
+						 echo "<br> issue with queries";
+					}
+
+					//delete lesson from data base
 					$delGroup = $group_id[$i]['group_id'];
 					mysqli_query($con,"START TRANSACTION");
 
@@ -136,10 +156,12 @@
 					$queryD = mysqli_query($con,"DELETE FROM lsnvideos where group_id = '$delGroup'");
 
 					if ($queryA && $queryB && $queryC && $queryD) {
-					   mysqli_query($con,"COMMIT"); //Commits the current transaction
-					   echo "Lesson: \"".$delGroup."\" was deleted";
-					   header("Refresh:0");
-					   exit();
+
+						//Commits the current transaction
+							mysqli_query($con,"COMMIT");
+							echo "Lesson: \"".$delGroup."\" was deleted";
+							//header("Refresh:0");
+							//exit();
 					} else {        
 					   mysqli_query($con,"ROLLBACK");//Even if any one of the query fails, the changes will be undone
 					   echo "query issues";

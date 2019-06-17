@@ -124,6 +124,10 @@ footer{
 	padding-top: 0;
 	padding-bottom: 5%;
 }
+
+.vidwrapper::-webkit-scrollbar { width: 0 !important }
+.vidwrapper{ overflow: -moz-scrollbars-none; }
+
 .vidboxes{
 	width: 90%;
 	height: 90px;
